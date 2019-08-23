@@ -1,0 +1,109 @@
+/*  MATÉRIA: SISTEMAS MICROCONTROLADOS
+    MCU: ATMEGA 328P F: 16MHz
+    AUTOR:alison, gabs, thiago
+    CÓDIGO 01 - PWM
+*/
+
+#include <avr/io.h> // traz as funçoes
+#include <util/delay.h>
+void analogEscreve (int numPino, int valorPWM);
+
+int main (void) {   // ========= funçao n retorna nd ========
+  // pd6 como saida
+  DDRD = (1 << PD6) | (1 << PD5) | (1 << PD3) ;
+  DDRB = (1 << PB2) |= (1 << PB3); | (1 << PB1);;
+  
+  while (1) { //========loop infinito, verdadeira =========
+    for (int i = 0; i <= 65535; i++) {
+      analogEscreve (10, i);
+      _delay_ms(1);
+
+
+
+    } // fim for
+
+    //    analogEscreve (6, 25);
+    //  analogEscreve (5,225);
+
+
+
+  } // fim loop
+
+} // fim main
+
+
+void analogEscreve (int numPino, int valorPWM) { // seleciona
+  switch (numPino) {
+    case 5:
+      //OCR0A para uma tensao de 0.5v
+      OCR0B = valorPWM;
+
+      // Configurar o modo de comparacao
+      TCCR0A  = (1 << COM0B1); // Set modo clear
+
+      //configura a forma de onda para o modo fast  pwm
+      TCCR0A |= (1 << WGM01) | (1 << WGM00);
+
+      //CONFIGURA PRESCALE
+      TCCR0B |= (1 << CS01); //
+
+
+      break;
+
+
+
+    case 10:
+      OCR1B = valorPWM; //CONFIGURA O VALOR DE COMPARACAO
+      ICR1 = 0xFFFF; // VALOR MAX DDE CONTAGEM TOP
+
+      TCCR1A |= (1 << COM1B1); //HABILITA O PWM NO PINO PB2 NO MODO CLEAR
+      // CONFIGURA A FORMA DE ONDA
+      TCCR1A |= (1 << WGM11);
+      TCCR1B |= (1 << WGM12) | (1 << WGM13);
+      TCCR1B |= (1 << CS10); // CONFIGURA O PRESCLAE DIVISAO POR 1
+
+      break;
+  }
+case 9:
+ OC1A = valorPWM; //CONFIGURA O VALOR DE COMPARACAO
+      ICR1 = 0xFFFF; // VALOR MAX DDE CONTAGEM TOP
+      TCCR1A|= (1<<COM1A);
+      TCCR1A|= (1<<WGM11);
+     TCCR1B |= (1 << WGM12) | (1 << WGM13);
+     TCCR1B |= (1 << CS10);
+
+break;
+ }
+case 11:
+OCR2A = valorPWM;
+ICR1 = 0xFFFF;
+TCCR2A|= (1<<COM2A);
+TCCR2A|= (1<<WGM21);
+TCCR2B |= (1<<WGM22);
+TCCR2B |=  (1 << CS20);
+break;
+}
+case 3:
+OCR2B = valorPWM;
+ICR1 = 0xFFFF;
+TCCR2A|= (1<<COM2B);
+TCCR2A |= (1<<WGM21);
+TCCR2B|= (1<<WGM22);
+TCCR2B |= (1<<CS20);
+break;
+}
+case 6:
+ OCR0B = valorPWM;
+
+      // Configurar o modo de comparacao
+      TCCR0A  = (1 << COM0A1); // Set modo clear
+
+      //configura a forma de onda para o modo fast  pwm
+      TCCR0A |= (1 << WGM01) | (1 << WGM00);
+
+      //CONFIGURA PRESCALE
+      TCCR0B |= (1 << CS01); //
+break
+}
+
+} // ==== fim analogEscreve
